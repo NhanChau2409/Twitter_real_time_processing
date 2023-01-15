@@ -2,6 +2,7 @@ import tweepy
 import socket
 from apikey import *             # Import authenticated key from private file
 
+
 # Twitter authentication
 auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
 auth.set_access_token(access_key, access_secret)
@@ -17,8 +18,8 @@ class TweetListener(tweepy.StreamingClient):
     # Override on_data method
     def on_data(self, data) -> bool:
         try:
-            print(f'Message text: {data}')
             self.client_socket.send(data)
+            print(f'Message text: {data}')
             return True
         except BaseException as e:
             print(f'Error: {e}')
@@ -30,7 +31,7 @@ def send_tweets(custom_socket: socket.socket):
     twitter_stream.add_rules(rule)
     
     # Trigger sending tweet 
-    twitter_stream.filter(tweet_fields=['text'])
+    twitter_stream.filter(tweet_fields=['text'], )
 
 if __name__ == "__main__":
     
@@ -46,5 +47,3 @@ if __name__ == "__main__":
     
     # Start sending stream data
     send_tweets(client)
-            
-    
